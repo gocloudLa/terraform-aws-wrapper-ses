@@ -1,0 +1,6 @@
+title: "Complete Example"
+description: "This example demonstrates the configuration of an AWS SES (Simple Email Service) using Terraform within a module named 'wrapper_ses'. It includes the setup of SES parameters and defaults, although many options are commented out."
+main_purpose: "The main purpose is to configure AWS SES parameters and defaults using Terraform."
+key_features:
+  - "**Ses Parameters Configuration**: Configures SES parameters for different zones, although most options are commented out."
+  - "**Ses Defaults**: Utilizes SES defaults passed as variables."
