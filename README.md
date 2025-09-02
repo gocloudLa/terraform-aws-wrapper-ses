@@ -26,6 +26,21 @@ ses_parameters = {
 
 
 
+## 📑 Inputs
+| Name               | Description                                                                               | Type     | Default                                          | Required |
+| ------------------ | ----------------------------------------------------------------------------------------- | -------- | ------------------------------------------------ | -------- |
+| zone_id            | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.ses[example.com].zone_id` | no       |
+| verify_domain      | If provided, the module will create Route53 DNS records used for domain verification.     | `bool`   | `true`                                           | no       |
+| verify_dkim        | If provided, the module will create Route53 DNS records used for DKIM verification.       | `bool`   | `true`                                           | no       |
+| iam_name           | IAM username.                                                                             | `string` | `"ses-example.com"`                              | no       |
+| create_secret      | Controls whether to create a secret manager to store users created by SES.                | `bool`   | `true`                                           | no       |
+| description        | Description to add to the secret.                                                         | `string` | `null`                                           | no       |
+| kms_key_id         | Optional. The KMS Key ID to encrypt the secret. Can use KMS key ARN or alias.             | `string` | `null`                                           | no       |
+| name               | Name (omit to use name_prefix).                                                           | `string` | `"ses-example.com"`                              | no       |
+| name_prefix        | Name Prefix (not used if name specified).                                                 | `string` | `""`                                             | no       |
+| pass_version       | Password version. Increment this to trigger a new password.                               | `string` | `"1"`                                            | no       |
+| notification_topic | Map of SES notification topic configurations.                                             | `map`    | `"{}"`                                           | no       |
+
 
 
 
