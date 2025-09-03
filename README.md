@@ -10,6 +10,8 @@ The Terraform wrapper for SES simplifies the configuration of the SMTP Service i
 
 ### ✨ Features
 
+- 📧 [SES Notifications and Logging](#ses-notifications-and-logging) - Enables Amazon SES notifications and logging for your domains.
+
 
 
 
@@ -23,6 +25,34 @@ ses_parameters = {
 
 
 ## 🔧 Additional Features Usage
+
+### SES Notifications and Logging
+This allows you to configure Amazon SES to send notifications for events such as Bounce, Complaint, or Delivery. 
+You can define custom SNS topics for each type of notification and optionally include original email headers. 
+
+
+<details><summary>Configuration Code</summary>
+
+```hcl
+ses_parameters = {
+  "${local.zone_public}" = {
+    notification_topic = {
+      "Bounce" = {
+        # topic_arn = "" # Default: sns_topic_alarms_notifications
+        # include_original_headers = true # Default: true
+      }
+      # "Complaint" = {}
+      # "Delivery"  = {}
+    }
+
+    # default_sns_topic_name = "sns-topic-name" # Default: "${local.common_name}-alarms"
+  }
+}
+```
+
+
+</details>
+
 
 
 
@@ -48,7 +78,13 @@ ses_parameters = {
 
 
 ## ⚠️ Important Notes
-- **ℹ️ Request Sandbox Removal:** Request Amazon SES sandbox removal to enable sending transactional emails - set `use_case_description` and `mail_type` p
+To enable Amazon SES, you first need to set up the domain. After the domain shows a verified status, you must open a support case to request the removal of the sandbox limitation for the region. In that case, you should submit the following text:
+```hcl
+Use case description: We will use Amazon SES for sending emails to our future clients, the emails will consist of register, notification and transactional emails. 
+We will limit our emails only to customers and we will have a use case of 10 to 20 emails per day due to being for test purposes.
+Mail Type: TRANSACTIONAL
+The correct URL is: https://example.com/
+```
 
 
 
