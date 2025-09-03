@@ -59,6 +59,7 @@ ses_parameters = {
 ## 📑 Inputs
 | Name                   | Description                                                                               | Type     | Default                                        | Required |
 | ---------------------- | ----------------------------------------------------------------------------------------- | -------- | ---------------------------------------------- | -------- |
+| create_domain          | Whether to create the SES domain                                                          | `bool`   | `true`                                         | no       |
 | zone_id                | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.this[each.key].zone_id` | no       |
 | verify_domain          | If provided, the module will create Route53 DNS records used for domain verification.     | `bool`   | `true`                                         | no       |
 | verify_dkim            | If provided, the module will create Route53 DNS records used for DKIM verification.       | `bool`   | `true`                                         | no       |
