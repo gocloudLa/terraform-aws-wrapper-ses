@@ -44,22 +44,20 @@ features:
           }
           ```
 important_notes: |
-  To enable Amazon SES, you first need to set up the domain. After the domain shows a verified status, you must open a support case to request the removal of the sandbox limitation for the region. In that case, you should submit the following text:
-  ```hcl
-  Use case description: We will use Amazon SES for sending emails to our future clients, the emails will consist of register, notification and transactional emails. 
-  We will limit our emails only to customers and we will have a use case of 10 to 20 emails per day due to being for test purposes.
-  Mail Type: TRANSACTIONAL
-  The correct URL is: https://example.com/
-  ```
+  - **⚠️ Domain Verification:** Domain must be verified before using SES
+  - **⚠️ Sandbox Limitation:** Open a support case to remove sandbox limitations for production use
+  - **⚠️ SMTP Credentials:** IAM user credentials are stored in Secrets Manager for secure access
+  - **⚠️ Notifications:** Configure SNS topics for bounce, complaint, and delivery notifications
 input_table: |
-  | zone_id | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.ses[example.com].zone_id` | no |
+  | zone_id | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.this[each.key].zone_id` | no |
   | verify_domain | If provided, the module will create Route53 DNS records used for domain verification. | `bool` | `true` | no |
   | verify_dkim | If provided, the module will create Route53 DNS records used for DKIM verification. | `bool` | `true` | no |
-  | iam_name | IAM username. | `string` | `"ses-example.com"` | no |
+  | iam_name | IAM username for SES SMTP access. | `string` | `"ses-${each.key}"` | no |
   | create_secret | Controls whether to create a secret manager to store users created by SES. | `bool` | `true` | no |
   | description | Description to add to the secret. | `string` | `null` | no |
   | kms_key_id | Optional. The KMS Key ID to encrypt the secret. Can use KMS key ARN or alias. | `string` | `null` | no |
-  | name | Name (omit to use name_prefix). | `string` | `"ses-example.com"` | no |
-  | name_prefix | Name Prefix (not used if name specified). | `string` | `""` | no |
-  | pass_version | Password version. Increment this to trigger a new password. | `string` | `"1"` | no |
-  | notification_topic | Map of SES notification topic configurations. | `map` | `"{}"` | no |
+  | name | Name for the secret (omit to use name_prefix). | `string` | `"ses-${each.key}"` | no |
+  | name_prefix | Name Prefix for the secret (not used if name specified). | `string` | `""` | no |
+  | pass_version | Password version. Increment this to trigger a new password. | `number` | `1` | no |
+  | notification_topic | Map of SES notification topic configurations. | `map` | `{}` | no |
+  | default_sns_topic_name | Default SNS topic name for notifications. | `string` | `${local.common_name}-alarms` | no |
