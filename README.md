@@ -35,7 +35,7 @@ You can define custom SNS topics for each type of notification and optionally in
 
 ```hcl
 ses_parameters = {
-  "${local.zone_public}" = {
+  "example.com" = {
     notification_topic = {
       "Bounce" = {
         # topic_arn = "" # Default: sns_topic_alarms_notifications
