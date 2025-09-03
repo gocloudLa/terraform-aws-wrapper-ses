@@ -49,6 +49,7 @@ important_notes: |
   - **⚠️ SMTP Credentials:** IAM user credentials are stored in Secrets Manager for secure access
   - **⚠️ Notifications:** Configure SNS topics for bounce, complaint, and delivery notifications
 input_table: |
+  | create_domain | Whether to create the SES domain | `bool` | `true` | no |
   | zone_id | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.this[each.key].zone_id` | no |
   | verify_domain | If provided, the module will create Route53 DNS records used for domain verification. | `bool` | `true` | no |
   | verify_dkim | If provided, the module will create Route53 DNS records used for DKIM verification. | `bool` | `true` | no |
