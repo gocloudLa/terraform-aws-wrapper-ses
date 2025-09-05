@@ -72,7 +72,7 @@ ses_parameters = {
 | pass_version           | Password version. Increment this to trigger a new password.                               | `number` | `1`                                            | no       |
 | notification_topic     | Map of SES notification topic configurations.                                             | `map`    | `{}`                                           | no       |
 | default_sns_topic_name | Default SNS topic name for notifications.                                                 | `string` | `${local.common_name}-alarms`                  | no       |
-| tags                   | Custom tags to assign to resources                                                        | `map`    | `local.common_tags`                            | no       |
+| tags                   | A map of tags to assign to resources.                                                     | `map`    | `{}`                                           | no       |
 
 
 
