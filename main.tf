@@ -20,6 +20,6 @@ module "ses" {
   notification_topic     = try(each.value.notification_topic, var.ses_defaults.notification_topic, {})
   default_sns_topic_name = try(each.value.default_sns_topic_name, var.ses_defaults.default_sns_topic_name, local.default_sns_topic_name)
 
-  tags = local.common_tags
+  tags = merge(local.common_tags, try(each.value.tags, var.ses_defaults.tags, null))
 
 }
