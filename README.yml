@@ -1,0 +1,65 @@
+module_name: Terraform SES Email Module
+module_description: The Terraform wrapper for SES simplifies the configuration of the SMTP Service in the AWS cloud. This wrapper functions as a predefined template, facilitating the creation and management of SES by handling all technical details.
+module_badges:
+  - url: "https://github.com/gocloudLa/terraform-aws-wrapper-ses/releases/latest"
+    image: "https://img.shields.io/github/v/release/gocloudLa/terraform-aws-wrapper-ses.svg?style=for-the-badge"
+    alt: "Latest Release"
+  - url: ""
+    image: "https://img.shields.io/github/last-commit/gocloudLa/terraform-aws-wrapper-ses.svg?style=for-the-badge"
+    alt: "Last Commit"
+  - url: "https://registry.terraform.io/modules/gocloudLa/wrapper-ses/aws"
+    image: "https://img.shields.io/badge/Terraform-Registry-7B42BC?style=for-the-badge&logo=terraform&logoColor=white"
+    alt: "Terraform Registry"
+quick_start: |
+  ```hcl
+  ses_parameters = {
+          "example.com" = {
+          }
+      }
+  ```
+features:
+  - icon: 📧
+    title: SES Notifications and Logging
+    short_description: Enables Amazon SES notifications and logging for your domains.
+    long_description: |
+      This allows you to configure Amazon SES to send notifications for events such as Bounce, Complaint, or Delivery. 
+      You can define custom SNS topics for each type of notification and optionally include original email headers. 
+    examples:
+      - title: Configuration Code
+        code: |
+          ```hcl
+          ses_parameters = {
+            "example.com" = {
+              notification_topic = {
+                "Bounce" = {
+                  # topic_arn = "" # Default: sns_topic_alarms_notifications
+                  # include_original_headers = true # Default: true
+                }
+                # "Complaint" = {}
+                # "Delivery"  = {}
+              }
+
+              # default_sns_topic_name = "sns-topic-name" # Default: "${local.common_name}-alarms"
+            }
+          }
+          ```
+important_notes: |
+  - **⚠️ Domain Verification:** Domain must be verified before using SES
+  - **⚠️ Sandbox Limitation:** Open a support case to remove sandbox limitations for production use
+  - **⚠️ SMTP Credentials:** IAM user credentials are stored in Secrets Manager for secure access
+  - **⚠️ Notifications:** Configure SNS topics for bounce, complaint, and delivery notifications
+input_table: |
+  | create_domain | Whether to create the SES domain | `bool` | `true` | no |
+  | zone_id | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.this[each.key].zone_id` | no |
+  | verify_domain | If provided, the module will create Route53 DNS records used for domain verification. | `bool` | `true` | no |
+  | verify_dkim | If provided, the module will create Route53 DNS records used for DKIM verification. | `bool` | `true` | no |
+  | iam_name | IAM username for SES SMTP access. | `string` | `"ses-${each.key}"` | no |
+  | create_secret | Controls whether to create a secret manager to store users created by SES. | `bool` | `true` | no |
+  | description | Description to add to the secret. | `string` | `null` | no |
+  | kms_key_id | Optional. The KMS Key ID to encrypt the secret. Can use KMS key ARN or alias. | `string` | `null` | no |
+  | name | Name for the secret (omit to use name_prefix). | `string` | `"ses-${each.key}"` | no |
+  | name_prefix | Name Prefix for the secret (not used if name specified). | `string` | `""` | no |
+  | pass_version | Password version. Increment this to trigger a new password. | `number` | `1` | no |
+  | notification_topic | Map of SES notification topic configurations. | `map` | `{}` | no |
+  | default_sns_topic_name | Default SNS topic name for notifications. | `string` | `${local.common_name}-alarms` | no |
+  | tags | A map of tags to assign to resources. | `map` | `{}` | no |
