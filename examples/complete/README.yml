@@ -4,7 +4,6 @@ main_purpose: "The main purpose is to configure AWS SES parameters and defaults 
 key_features:
   - "**Ses Parameters Configuration**: Configures SES parameters for different zones, although most options are commented out."
   - "**Ses Defaults**: Utilizes SES defaults passed as variables."
-
 sandbox_removal: |
 
   **Steps:**
