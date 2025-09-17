@@ -45,9 +45,30 @@ features:
           ```
 important_notes: |
   - **⚠️ Domain Verification:** Domain must be verified before using SES
-  - **⚠️ Sandbox Limitation:** Open a support case to remove sandbox limitations for production use
   - **⚠️ SMTP Credentials:** IAM user credentials are stored in Secrets Manager for secure access
   - **⚠️ Notifications:** Configure SNS topics for bounce, complaint, and delivery notifications
+
+  ## Initial Configuration Steps
+  
+  After the Terraform deployment completes, follow these steps to configure SES for remove sandbox limitations:
+
+  **1. Inside the SES service:**
+  - Go to **Get set up > Open Tasks > Request Production Access**.
+  
+  **2. Select the option "Transactional"**
+  
+  **3. Complete with the correct URL: https://example.com/**
+  
+  **4. Go to AWS Support Center**
+  - Open a case with type **SES: Production Access** and include the following justification text:
+  
+  ```
+  Use case description: We will use Amazon SES for sending emails to our future clients, the emails will consists of register, notification and transactional emails. 
+  We will limit our emails only to customers and we will have an use case of 10 to 20 emails per day due to being for test purposes.
+  Mail Type: TRANSACTIONAL
+  The correct URL is: https://example.com/
+  ```
+
 input_table: |
   | create_domain | Whether to create the SES domain | `bool` | `true` | no |
   | zone_id | Route53 parent zone ID. The module will create Route53 DNS records used for verification. | `string` | `data.aws_route53_zone.this[each.key].zone_id` | no |
